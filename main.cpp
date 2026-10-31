@@ -15,7 +15,7 @@ static const wchar_t* APP_TITLE = L"CS 1.6 - Legit Training Panel";
 std::wstring GetText(HWND h) {
     int n = GetWindowTextLengthW(h);
     std::wstring s(n + 1, L'\0');
-    GetWindowTextW(h, s.data(), n + 1);
+    GetWindowTextW(h, &s[0], n + 1);
     s.resize(n);
     return s;
 }
