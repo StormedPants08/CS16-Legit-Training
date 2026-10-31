@@ -1,16 +1,28 @@
-@echo off
-setlocal
-where cl >nul 2>nul
-if errorlevel 1 (
-  echo Microsoft C++ Build Tools nao encontrado.
-  echo Abra "x64 Native Tools Command Prompt for VS" e execute este arquivo novamente.
-  pause
-  exit /b 1
-)
-cl /nologo /EHsc /O2 /DUNICODE /D_UNICODE main.cpp /link /SUBSYSTEM:WINDOWS comdlg32.lib shell32.lib /OUT:CS16_Legit_Training_Panel.exe
-if errorlevel 1 (
-  echo Falha na compilacao.
-) else (
-  echo Compilado: CS16_Legit_Training_Panel.exe
-)
-pause
+
+name: Build CS16 Training Panel
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Compile EXE
+        shell: cmd
+        run: |
+          cl /EHsc /O2 /std:c++17 main.cpp /link user32.lib gdi32.lib comctl32.lib comdlg32.lib shell32.lib /SUBSYSTEM:WINDOWS /OUT:CS16_Training_Panel.exe
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: CS16-Training-Panel-Windows11
+          path: CS16_Training_Panel.exe
