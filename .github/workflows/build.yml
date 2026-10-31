@@ -19,10 +19,11 @@ jobs:
       - name: Compile EXE
         shell: cmd
         run: |
+          cd CS16_Legit_Training_Panel
           cl /EHsc /O2 main.cpp /link user32.lib gdi32.lib comctl32.lib /OUT:CS16_Training_Panel.exe
 
       - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
           name: CS16-Training-Panel-Windows11
-          path: CS16_Training_Panel.exe
+          path: CS16_Legit_Training_Panel/CS16_Training_Panel.exe
